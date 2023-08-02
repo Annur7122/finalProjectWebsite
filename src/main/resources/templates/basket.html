@@ -8,18 +8,18 @@
 
       <div  style="margin:auto; width: 85%" class="row">
          <div class="col-12">
-            <div style="width: 50%;" class="list-group" th:each="offer : ${offers}">
+            <div style="width: 80%; margin-top: 10px; margin-left: 10%;" class="list-group" th:each="offer : ${offers}">
                <a href="JavaScript:void(0)" class="list-group-item list-group-item-action">
                   <div style="display: flex; justify-content: space-between;">
                      <div>
-                        <h3 class="mb-1" th:text="${offer.getName()}"></h3>
-                        <h3>Price: <span th:text="${offer.getPrice()}"></span></h3>
+                        <h4 class="mb-1" th:text="${offer.getName()}"></h4>
+                        <h4>Price: <span th:text="${offer.getPrice()}"></span></h4>
                      </div>
                      <div>
                         <form th:action="@{'/remove-basket'}" method="post">
                            <input name="userId" style="visibility: hidden" th:value="${#authentication.principal.id}">
                            <input name="offerId" style="visibility: hidden" th:value="${offer.getId()}">
-                           <button type="submit" class="btn btn-outline-danger">Remove</button>
+                           <button type="submit" style="margin-left: 5px; margin-top: 16px;" class="btn btn-outline-danger">Remove</button>
                         </form>
                      </div>
                   </div>

@@ -21,17 +21,9 @@
         <li class="nav-item">
           <a class="nav-link active"  th:href="@{'/'}">Home</a>
         </li>
-        <li class="nav-item" sec:authorize="isAnonymous()">
-          <a class="nav-link" th:href="@{'/sign-in-page'}">Sign In</a>
-        </li>
-          <li class="nav-item" sec:authorize="isAnonymous()">
-              <a class="nav-link" th:href="@{'/sign-up-page'}">Sign Up</a>
-          </li>
+
           <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-              <a class="nav-link" th:href="@{'/addOffer'}">add Offer</a>
-          </li>
-          <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN')">
-              <a class="nav-link" th:href="@{'/admin-panel'}">Admin Panel</a>
+              <a class="nav-link active" th:href="@{'/addOffer'}">add Offer</a>
           </li>
           <li class="nav-item">
               <a class="nav-link active"  th:href="@{'/allTypes'}">Categories</a>
@@ -42,7 +34,12 @@
           <li class="nav-item" sec:authorize="isAuthenticated()">
               <a class="nav-link active"  th:href="@{'/basket'}">Basket</a>
           </li>
-
+          <li class="nav-item" sec:authorize="isAnonymous()">
+              <a class="nav-link" th:href="@{'/sign-in-page'}">Sign In</a>
+          </li>
+          <li class="nav-item" sec:authorize="isAnonymous()">
+              <a class="nav-link" th:href="@{'/sign-up-page'}">Sign Up</a>
+          </li>
         <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            <span th:text="${#authentication.principal.fullName}"></span>
@@ -56,15 +53,9 @@
                     <button class="dropdown-item" href="#">Sign Out</button>
                 </form>
             </li>
-
-
           </ul>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-light" type="submit">Search</button>
-      </form>
     </div>
   </div>
 </nav>
