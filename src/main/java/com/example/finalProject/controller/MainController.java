@@ -61,14 +61,15 @@ public class MainController {
     public String addToBasket(@RequestParam(name = "offerId") Long offerId,
                               @RequestParam(name = "userId") Long userId){
         offersService.addUser(userId, offerId);
-        return "basket";
+
+        return "redirect:/basket";
     }
 
     @PostMapping(value="/remove-basket")
     public String removeFromBasket(@RequestParam(name = "offerId") Long offerId,
                                    @RequestParam(name = "userId") Long userId){
         offersService.removeUser(userId, offerId);
-        return "basket";
+        return "redirect:/basket";
     }
 
 

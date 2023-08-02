@@ -22,7 +22,7 @@
                    if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
                        let offersList = JSON.parse(httpRequest.responseText);
 
-                       let bodyContent = "<div style=\"display: flex; justify-content: space-between; flex-wrap: wrap\">";
+                       let bodyContent = "<div style=\"display: flex; justify-content: space-around; flex-wrap: wrap\">";
 
                        for(let i = 0; i < offersList.length; i++){
 

@@ -6,10 +6,10 @@
 <div layout:fragment="content">
     <p id="OfferId" style="visibility: hidden" th:text="${id}"></p>
 
-    <div th:if="${#authorization.expression('isAuthenticated()')}">
+    <div style="visibility: hidden" th:if="${#authorization.expression('isAuthenticated()')}">
            <p id="userVal" th:text="authent"></p>
     </div>
-    <div th:unless="${#authorization.expression('isAuthenticated()')}">
+    <div style="visibility: hidden" th:unless="${#authorization.expression('isAuthenticated()')}">
            <p id="userVal" th:text="anonim"></p>
     </div>
 
@@ -61,24 +61,7 @@
                             " onclick='addToBasketOffer("+offerInfo.id+")'>ADD TO BASKET</button>";
                     }
 
-
                     bodyContent += "</div></div>";
-
-                    bodyContent += "<p style='visibility: hidden' id=\"id\">" + offerInfo.id + "</p>";
-                    bodyContent += "<p>" + offerInfo.name + "</p>";
-                    bodyContent += "<p>" + offerInfo.status + "</p>";
-                    bodyContent += "<p>" + offerInfo.description + "</p>";
-                    bodyContent += "<p>" + offerInfo.price + "</p>";
-
-                    bodyContent += "<button class='btn btn-primary btn-sm'" +
-                        " onclick='openOfferDetailsModal("+offerInfo.id+")'>UPDATE</button></td>";
-                    bodyContent += "<button class='btn btn-danger btn-sm'" +
-                        " onclick='deleteOffer()'>DELETE</button></td>";
-                    bodyContent += "<button class='btn btn-success btn-sm'" +
-                        " onclick='addToBasketOffer("+offerInfo.id+")'>ADD TO BASKET</button></td>";
-
-
-                    bodyContent += "</div>";
                     document.getElementById("offerDetailBody").innerHTML = bodyContent;
                 }
             }
@@ -101,7 +84,6 @@
                     nameDetails.value = result.name;
                     descriptionDetails.value = result.description;
                     priceDetails.value = result.price;
-
                     detailsModal.show();
                 }
             }
@@ -114,6 +96,7 @@
 
     </div>
 
+    <div style="margin: auto; max-width: 58rem;">
     <div sec:authorize="isAuthenticated()">
         <h2>Write your comments:</h2>
         <form th:action="@{'/add-comment'}" method="post">
@@ -148,7 +131,7 @@
             </div>
         </div>
     </div>
-
+    </div>
 
     <!-- Modal -->
     <div class="modal fade" id="detailsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
