@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout.html" xmlns="http://www.w3.org/1999/html">
+<div layout:fragment="content">
+    <p id="OfferId" style="visibility: hidden" th:text="${id}"></p>
+
+    <div style="visibility: hidden" th:if="${#authorization.expression('isAuthenticated()')}">
+           <p id="userVal" th:text="authent"></p>
+    </div>
+    <div style="visibility: hidden" th:unless="${#authorization.expression('isAuthenticated()')}">
+           <p id="userVal" th:text="anonim"></p>
+    </div>
+
+    <form th:action="@{'/add-basket'}" method="post">
+        <input name="offerId" style="visibility: hidden;" th:value="${id}">
+        <input name="userId"  style="visibility: hidden;" th:value="${#authentication.principal.id}"
+               th:if="${#authorization.expression('isAuthenticated()')}">
+        <button style="visibility: hidden;" id="ButtonForAdd"></button>
+    </form>
+
+    <script type="text/javascript">
+        var offerId = document.getElementById("OfferId");
+        var offerValue = offerId.textContent;
+        var offerNumberValue = parseInt(offerValue);
+
+        userValueForCheck = document.getElementById("userVal").textContent;
+
+        console.log(userValueForCheck);
+
+        loadOfferDetail(offerNumberValue);
+        function loadOfferDetail(id){
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.open( "GET", "/offer/" + id, true);
+            httpRequest.onreadystatechange = function(){
+                if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
+                    let offerInfo = JSON.parse(httpRequest.responseText);
+                    let bodyContent = "";
+
+
+                    bodyContent += "<div class=\"card text-bg-dark mb-3\" style=\"margin: auto; max-width: 58rem;\">";
+                    bodyContent += "<div class=\"card-header\">" + offerInfo.name + "</div>";
+                    bodyContent += "<div class=\"card-body ml-2\">"
+                    bodyContent += "<h1 class=\"card-title text-center\">" + offerInfo.name + "</h1>";
+                    bodyContent += "<h5 class=\"card-text mt-4 m-auto \" style='width: 90%;'>" + offerInfo.description + "</h5>";
+                    bodyContent += "<h2 class=\"card-text mt-3 \" style='margin-left: 5%; '> Price: " + offerInfo.price + "tenge</h2>";
+
+                    if(userValueForCheck === "anonim"){
+                        bodyContent += "<div style=\"text-align: center; margin:auto; width: 70%; height:30%;\" class=\"alert alert-success\" role=\"alert\">\n" +
+                            "For add to basket, firstly <a href=\"/sign-in-page\" class=\"alert-link\">Sign In</a>. " +
+                            "on website" + "</div>";
+                    }
+
+                    if(userValueForCheck === "authent"){
+                        bodyContent += "<button class='btn btn-success mt-3'  style='margin-left: 30px; '" +
+                            " onclick='addToBasketOffer("+offerInfo.id+")'>ADD TO BASKET</button>";
+                    }
+
+                    bodyContent += "</div>";
+                    document.getElementById("offerDetailBody").innerHTML = bodyContent;
+                }
+            }
+            httpRequest.send();
+        }
+
+        function addToBasketOffer(id){
+            const button1 = document.getElementById('ButtonForAdd');
+            button1.click();
+        }
+    </script>
+
+    <div id="offerDetailBody">
+
+    </div>
+
+    <div style="margin: auto; max-width: 58rem;">
+    <div sec:authorize="isAuthenticated()">
+        <h2>Write your comments:</h2>
+        <form th:action="@{'/add-comment'}" method="post">
+            <div class="row">
+                <div class="col-12">
+                    <textarea class="form-control" name="text"></textarea>
+                </div>
+            </div>
+            <input type="hidden" name="offer.id" th:value="${id}">
+            <input type="hidden" name="user.id" th:value="${#authentication.principal.id}">
+            <div class="row mt-3">
+                <div class="col-12">
+                    <button class="btn btn-success btn-sm">ADD COMMENT</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div sec:authorize="isAnonymous()">
+        <h4>To write comment first sign in</h4>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="list-group" th:if="comments != null"  th:each="comment : ${comments}">
+                <a href="JavaScript:void(0)" class="list-group-item list-group-item-action">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1" th:text="${comment.getUser().getFullName()}"></h5>
+                    </div>
+                    <p class="mb-1" th:text="${comment.getText()}"></p>
+                </a>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+            </div>
+
+
+
+</html>
+
+
