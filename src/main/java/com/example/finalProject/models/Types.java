@@ -15,6 +15,4 @@ public class Types extends BaseModel {
     @Column(name="name")
     private String name;
 
-    @ManyToMany
-    private List<Categories> categories;
 }

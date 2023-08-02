@@ -1,9 +1,6 @@
 package com.example.finalProject.controller;
 
-import com.example.finalProject.models.Comments;
-import com.example.finalProject.models.Offers;
-import com.example.finalProject.models.Types;
-import com.example.finalProject.models.User;
+import com.example.finalProject.models.*;
 import com.example.finalProject.reposritory.OffersRepository;
 import com.example.finalProject.service.CommentsService;
 import com.example.finalProject.service.OffersService;
@@ -12,6 +9,7 @@ import com.example.finalProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
@@ -55,13 +54,10 @@ public class MainController {
         List<Types> types = typesService.getAllTypes();
         model.addAttribute("types",types);
 
-        Long offerLatestId = offersService.getLatestId() + 1;
-        model.addAttribute("latestId", offerLatestId);
-
         return "addOffer";
     }
 
-    @PostMapping(value="/add-baszket")
+    @PostMapping(value="/add-basket")
     public String addToBasket(@RequestParam(name = "offerId") Long offerId,
                               @RequestParam(name = "userId") Long userId){
         offersService.addUser(userId, offerId);
@@ -75,28 +71,36 @@ public class MainController {
         return "basket";
     }
 
+
     @GetMapping(value="/details/{offersId}")
-    public String OfferDetails(@PathVariable(name="offersId") Long offerId, Model model){
+    public String OfferDetailsUser(@PathVariable(name="offersId") Long offerId, Model model, Authentication authentication) {
         Offers offer = offersService.getOfferById(offerId);
         model.addAttribute("id", offerId);
 
         List<Comments> commentsList = commentsService.getCommentsByOffer(offer);
         model.addAttribute("comments", commentsList);
 
-        return "detailsOffer";
+        if (authentication != null) {
+            User user = (User) authentication.getPrincipal();
+//            boolean isAdmin = user.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            boolean isAdmin=false;
+            for(Permission p : user.getPermissions()){
+                if(p.getAuthority().equals("ROLE_ADMIN")){
+                    isAdmin=true;
+                    break;
+                }
+            }
+            if (isAdmin) {
+                return "detailsOffer";
+            } else {
+                return "detailsOfferUser";
+            }
+        } else {
+            return "detailsOfferUser";
+        }
     }
 
-    @PostMapping(value = "/add-type")
-    public String addType(@RequestParam(name = "offerId") Long offerId,
-                          @RequestParam(name = "typeId") Long typeId){
-        System.out.println(offerId);
-        System.out.println(typeId);
-        Offers offer = offersService.getOfferById(offerId);
-        Types type = typesService.getTypeById(typeId);
-        offer.setType(type);
-        offersService.updateOffers(offer);
-        return "addOffer";
-    }
+
 
     @PostMapping(value = "/add-comment")
     public String addComment(Comments comment){

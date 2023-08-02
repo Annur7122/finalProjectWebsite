@@ -11,26 +11,23 @@
 
     <script type="text/javascript">
         loadTypes();
-        loadJayCourses();
-        function loadJayCourses(){
-            console.log("dsfadf");
-            document.getElementById("offersListBody").innerHTML = "sadfasdfasdf";
-        }
         function loadTypes(){
             const httpRequest = new XMLHttpRequest();
             httpRequest.open("GET", "/type", true);
             httpRequest.onreadystatechange = function(){
                 if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
                     let typeList = JSON.parse(httpRequest.responseText);
-
-                    let bodyContent = " <div  th:class=\"${'card border-success mb-3'}\" style=\"width: 48%;" +
-                        " justify-content: space-between; border-width: 2px; margin-left: 15px;\" >";
+                    console.log(typeList.length);
+                    let bodyContent = "<div style='margin-left:40%;'><h2>All Categories Of Sport</h2></div>"
+                    bodyContent += "<div>";
 
                     for(let i = 0; i < typeList.length; i++){
-                        bodyContent += "<p>" + typeList[i].name + "</p>";
-
-                        bodyContent += "<button class='btn btn-primary btn-sm'" +
-                            " onclick='openTypeDetail("+typeList[i].id+")'>Go</button></td>";
+                        bodyContent += "<div class=\"card text-bg-dark mb-3\" style=\"max-width: 50rem; margin: auto;\">";
+                        bodyContent += "<div class=\"card-body ml-2\">"
+                        bodyContent += "<h2 style=\"margin-left: 45%;\" class=\"card-title\">" + typeList[i].name + "</h2>";
+                        bodyContent += "<button style=\"margin-left: 45%;\" class='btn btn-primary btn-sm'" +
+                            " onclick='openTypeDetail("+typeList[i].id+")'>View all</button>";
+                        bodyContent += "</div></div>";
                     }
                     bodyContent += "</div>";
                     document.getElementById("typesListBody").innerHTML = bodyContent;

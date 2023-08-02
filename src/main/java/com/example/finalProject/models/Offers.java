@@ -20,9 +20,6 @@ public class Offers extends BaseModel {
     @Column(name = "price")
     private int price;
 
-    @Column(name="status")
-    private int status;
-
     @ManyToOne
     private Types type;
 

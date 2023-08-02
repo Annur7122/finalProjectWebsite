@@ -22,24 +22,22 @@
                httpRequest.onreadystatechange = function(){
                    if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
                        let offersList = JSON.parse(httpRequest.responseText);
-
-                       let bodyContent = " <div  th:class=\"${'card border-success mb-3'}\" style=\"width: 48%;" +
-                           " justify-content: space-between; border-width: 2px; margin-left: 15px;\" >";
+                       let bodyContent = "<div style=\"display: flex; justify-content: space-between; flex-wrap: wrap\">";
 
                        for(let i = 0; i < offersList.length; i++){
-                           console.log(offersList[i].name);
-                           console.log(typeIdValue + " " +offersList[i].type.id);
                            if(offersList[i].type.id === typeIdValue) {
-                               bodyContent += "<p>" + offersList[i].name + "</p>";
-                               bodyContent += "<p>" + offersList[i].status + "</p>";
-                               bodyContent += "<p>" + offersList[i].description + "</p>";
-                               bodyContent += "<p>" + offersList[i].price + "</p>";
-
-                               bodyContent += "<button class='btn btn-primary btn-sm'" +
-                                   " onclick='openOfferDetail(" + offersList[i].id + ")'>DETAILS</button></td>";
+                           bodyContent += "<div class=\"card text-bg-dark mb-3\" style=\"max-width: 23rem;\">";
+                           bodyContent += "<div class=\"card-body ml-2\">"
+                           bodyContent += "<h2 class=\"card-title\">" + offersList[i].name + "</h2>";
+                           bodyContent += "<p class=\"card-text\">" + offersList[i].description + "</p>";
+                           bodyContent += "<h4 class=\"card-text\"> Price:" + offersList[i].price + "tenge</h4>";
+                           bodyContent += "<button type=\"button\" class=\"btn btn-success w-25\"" +
+                               " onclick='openOfferDetail("+offersList[i].id+")'>DETAILS</button>";
+                           bodyContent += "</div></div>";
                            }
                        }
                        bodyContent += "</div>";
+
                        document.getElementById("offersListBody").innerHTML = bodyContent;
                    }
                }
