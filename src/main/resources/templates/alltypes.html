@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout.html">
+<div layout:fragment="content">
+    <div id="typesListBody">
+
+    </div>
+
+
+    <script type="text/javascript">
+        loadTypes();
+        loadJayCourses();
+        function loadJayCourses(){
+            console.log("dsfadf");
+            document.getElementById("offersListBody").innerHTML = "sadfasdfasdf";
+        }
+        function loadTypes(){
+            const httpRequest = new XMLHttpRequest();
+            httpRequest.open("GET", "/type", true);
+            httpRequest.onreadystatechange = function(){
+                if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
+                    let typeList = JSON.parse(httpRequest.responseText);
+
+                    let bodyContent = " <div  th:class=\"${'card border-success mb-3'}\" style=\"width: 48%;" +
+                        " justify-content: space-between; border-width: 2px; margin-left: 15px;\" >";
+
+                    for(let i = 0; i < typeList.length; i++){
+                        bodyContent += "<p>" + typeList[i].name + "</p>";
+
+                        bodyContent += "<button class='btn btn-primary btn-sm'" +
+                            " onclick='openTypeDetail("+typeList[i].id+")'>Go</button></td>";
+                    }
+                    bodyContent += "</div>";
+                    document.getElementById("typesListBody").innerHTML = bodyContent;
+                }
+            }
+            httpRequest.send();
+        }
+
+
+        function openTypeDetail(id){
+            var url = "/types/" + id;
+            window.location.href = url;
+        }
+    </script>
+</div>
+</html>

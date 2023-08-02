@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout.html">
+   <div layout:fragment="content">
+       <div class="col-6 mx-auto">
+           <div class="row mt-3">
+               <div class="col-12">
+                   <label>NAME : </label>
+               </div>
+           </div>
+           <div class="row mt-2">
+               <div class="col-12">
+                   <input type="text" class="form-control" id="name">
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-12">
+                   <label>DESCRIPTION : </label>
+               </div>
+           </div>
+           <div class="row mt-2">
+               <div class="col-12">
+                   <textarea class="form-control" id="description"></textarea>
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-12">
+                   <label>PRICE : </label>
+               </div>
+           </div>
+           <div class="row mt-2">
+               <div class="col-12">
+                   <input type="number" class="form-control" id="price">
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-12">
+                   <label>Sport Type : </label>
+               </div>
+           </div>
+           <div class="row mt-2">
+               <div class="col-12">
+               <select class="form-select" id="typeId">
+                   <option th:each="type : ${types}" th:value="${type.getId()}" th:text="${type.getName()}">
+                   </option>
+               </select>
+               </div>
+           </div>
+           <div class="row mt-3">
+               <div class="col-12">
+                   <button class="btn btn-success" onclick = "addOffer()">ADD OFFER</button>
+               </div>
+           </div>
+       </div>
+
+       <script type="text/javascript">
+           function addOffer(){
+
+               const httpRequest = new XMLHttpRequest();
+               httpRequest.open("POST", "/offer", true);
+               httpRequest.setRequestHeader('Content-Type', 'application/json');
+
+
+               let name = document.getElementById("name");
+               let description = document.getElementById("description");
+               let price = document.getElementById("price");
+               let typeId = document.getElementById("typeId");
+               let typeName = document.getElementById("typeId");
+
+
+
+               httpRequest.onreadystatechange = function (){
+                   if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
+                       name.value = "";
+                       description.value = "";
+                       price.value = "";
+
+                   }
+               };
+
+               let body = {
+                   'name' : name.value,
+                   'description' : description.value,
+                   'price' : price.value,
+                   'type': {
+                        'id': typeId.value
+                   }
+               };
+
+               body = JSON.stringify(body);
+               httpRequest.send(body);
+
+           }
+       </script>
+   </div>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout.html">
+   <div layout:fragment="content">
+      <div class="row">
+         <div class="col-12">
+            <div class="list-group" th:each="offer : ${offers}">
+               <a href="JavaScript:void(0)" class="list-group-item list-group-item-action">
+                  <p class="mb-1" th:text="${offer.getName()}"></p>
+                  <p th:text="${offer.getPrice()}"></p>
+                  <form th:action="@{'/remove-basket'}" method="post">
+                     <input name="userId" style="visibility: hidden" th:value="${#authentication.principal.id}">
+                     <input name="offerId" style="visibility: hidden" th:value="${offer.getId()}">
+                     <button type="submit" class="btn btn-outline-danger">Remove</button>
+                  </form>
+               </a>
+            </div>
+         </div>
+      </div>
+   </div>
+</html>

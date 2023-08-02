@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th = "http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="layout.html">
+   <div layout:fragment="content">
+           <div id="offersListBody" style="margin: auto; width: 75%;">
+
+           </div>
+
+       <script type="text/javascript">
+           loadOffers();
+           loadJayCourses();
+           function loadJayCourses(){
+               console.log("dsfadf");
+               document.getElementById("offersListBody").innerHTML = "sadfasdfasdf";
+           }
+           function loadOffers(){
+               const httpRequest = new XMLHttpRequest();
+               httpRequest.open("GET", "/offer", true);
+               httpRequest.onreadystatechange = function(){
+                   if(httpRequest.readyState == XMLHttpRequest.DONE && httpRequest.status == 200){
+                       let offersList = JSON.parse(httpRequest.responseText);
+
+                       let bodyContent = "<div style=\"display: flex; justify-content: space-between; flex-wrap: wrap\">";
+
+                       for(let i = 0; i < offersList.length; i++){
+
+                           bodyContent += "<div class=\"card text-bg-dark mb-3\" style=\"max-width: 23rem;\">";
+                           bodyContent += "<div class=\"card-body ml-2\">"
+                           bodyContent += "<h2 class=\"card-title\">" + offersList[i].name + "</h2>";
+                           bodyContent += "<p class=\"card-text\">" + offersList[i].description + "</p>";
+                           bodyContent += "<h4 class=\"card-text\"> Price:" + offersList[i].price + "tenge</h4>";
+                           bodyContent += "<button type=\"button\" class=\"btn btn-success w-25\"" +
+                               " onclick='openOfferDetail("+offersList[i].id+")'>DETAILS</button>";
+                           bodyContent += "</div></div>";
+                       }
+                       bodyContent += "</div>";
+                       document.getElementById("offersListBody").innerHTML = bodyContent;
+                   }
+               }
+               httpRequest.send();
+           }
+
+
+           function openOfferDetail(id){
+               var url = "/details/" + id;
+               window.location.href = url;
+           }
+       </script>
+   </div>
+</html>
