@@ -8,8 +8,7 @@ VALUES
     ('Team Sports'),
     ('Individual Sports'),
     ('Combat Sports'),
-    ('Water Sports'),
-    ('Extreme Sports');
+    ('Water Sports');
 
 INSERT INTO users (email, full_name, password)
 VALUES

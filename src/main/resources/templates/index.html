@@ -10,11 +10,6 @@
 
        <script type="text/javascript">
            loadOffers();
-           loadJayCourses();
-           function loadJayCourses(){
-               console.log("dsfadf");
-               document.getElementById("offersListBody").innerHTML = "sadfasdfasdf";
-           }
            function loadOffers(){
                const httpRequest = new XMLHttpRequest();
                httpRequest.open("GET", "/offer", true);

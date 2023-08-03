@@ -3,11 +3,9 @@ package com.example.finalProject.service;
 
 import com.example.finalProject.dto.OffersDTO;
 import com.example.finalProject.mapper.OffersMapper;
-import com.example.finalProject.models.Comments;
 import com.example.finalProject.models.Offers;
 import com.example.finalProject.models.User;
 import com.example.finalProject.reposritory.OffersRepository;
-import com.example.finalProject.reposritory.UserRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -67,10 +65,6 @@ public class OffersService {
         }
 
         offersRepository.save(offer);
-    }
-
-    public Long getLatestId() {
-        return offersRepository.findLatestId();
     }
 
     public OffersDTO getOffer(Long id){

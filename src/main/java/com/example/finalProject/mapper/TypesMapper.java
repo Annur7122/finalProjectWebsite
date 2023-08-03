@@ -1,9 +1,7 @@
 package com.example.finalProject.mapper;
 
 
-import com.example.finalProject.dto.OffersDTO;
 import com.example.finalProject.dto.TypesDTO;
-import com.example.finalProject.models.Offers;
 import com.example.finalProject.models.Types;
 import org.mapstruct.Mapper;
 

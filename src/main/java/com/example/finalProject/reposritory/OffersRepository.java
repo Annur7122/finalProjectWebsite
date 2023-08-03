@@ -13,7 +13,4 @@ import java.util.List;
 public interface OffersRepository extends JpaRepository<Offers, Long> {
     public List<Offers> findAllByUserEquals(User user);
 
-    @Query(value = "SELECT MAX(id) FROM Offers")
-    Long findLatestId();
-
 }

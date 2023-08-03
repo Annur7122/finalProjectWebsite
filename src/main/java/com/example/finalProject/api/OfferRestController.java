@@ -2,17 +2,13 @@ package com.example.finalProject.api;
 
 
 import com.example.finalProject.dto.OffersDTO;
-import com.example.finalProject.models.Comments;
+
 import com.example.finalProject.models.Offers;
 import com.example.finalProject.service.CommentsService;
 import com.example.finalProject.service.OffersService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.model.IComment;
 
-import java.util.Collections;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
@@ -24,7 +20,6 @@ public class OfferRestController {
 
     @GetMapping
     public List<OffersDTO> offersList(){
-        System.out.println(offersService.getOffers());
         return offersService.getOffers();
     }
 
@@ -47,7 +42,6 @@ public class OfferRestController {
     public void deleteOffer(@PathVariable(name = "id") Long id){
         Offers offer = offersService.getOfferById(id);
         commentsService.removeAllFromOffer(offer);
-
         offersService.deleteOffer(id);
     }
 

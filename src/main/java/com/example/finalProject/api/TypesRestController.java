@@ -1,9 +1,9 @@
 package com.example.finalProject.api;
 
 
-import com.example.finalProject.dto.OffersDTO;
+
 import com.example.finalProject.dto.TypesDTO;
-import com.example.finalProject.service.OffersService;
+
 import com.example.finalProject.service.TypesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,6 @@ public class TypesRestController {
 
     @GetMapping
     public List<TypesDTO> typesList(){
-        System.out.println(typesService.getTypes());
         return typesService.getTypes();
     }
 

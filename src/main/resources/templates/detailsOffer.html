@@ -27,7 +27,6 @@
 
         userValueForCheck = document.getElementById("userVal").textContent;
 
-        console.log(userValueForCheck);
 
         loadOfferDetail(offerNumberValue);
         function loadOfferDetail(id){
@@ -193,8 +192,7 @@
                             }
                         };
 
-                        console.log(offerNumberValue + " " + offerName.value + " "
-                            + offerDescription.value + " " + offerPrice.value);
+
 
                         let body = {
                             'id':  offerNumberValue,
@@ -204,7 +202,7 @@
                         };
 
                         body = JSON.stringify(body);
-                        //console.log(body) checkat cherez console
+
                         httpRequest.send(body);
 
                     }
@@ -217,7 +215,6 @@
                         if(approve){
                             let offerId =  offerNumberValue;
 
-                            console.log(offerNumberValue);
 
                             const httpRequest = new XMLHttpRequest();
                             httpRequest.open("DELETE", "/offer/"+ offerNumberValue, true);

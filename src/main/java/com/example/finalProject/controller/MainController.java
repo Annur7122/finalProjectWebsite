@@ -9,15 +9,12 @@ import com.example.finalProject.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.List;
 
@@ -114,15 +111,8 @@ public class MainController {
         User user = userService.getCurrentSessionUser();
         model.addAttribute("user", user);
 
-        System.out.println(user.getEmail());
-        System.out.println(user.getFullName());
-        System.out.println(user.getPassword());
-
         List<Offers> offersList = offersService.getAllOffersByUser(user);
-        System.out.println(offersList);
-        for(Offers offer : offersList){
-            System.out.println(offer.getName() + offer.getDescription());
-        }
+
         model.addAttribute("offers", offersList);
 
         return "basket";
